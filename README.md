@@ -1,4 +1,4 @@
-# GatlingProject
+# GatlingProject - Performance Measurement of API , GUI and many more.
 
 Steps to create Gatling Project with scala
 
