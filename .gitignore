@@ -1,0 +1,6 @@
+/.cache-tests
+/.classpath
+/.project
+/.settings/
+/target/
+/Steps to create Gatling Project with scala.docx
