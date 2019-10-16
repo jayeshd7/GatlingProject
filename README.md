@@ -2,7 +2,7 @@
 
 ## :question: What is this Repository about?
     
-  This is a demo project for running the tests using Gatling using Scala.
+  This is a demo project for running the performance tests using Gatling using Scala.
 
 ## :question: How do I setup this project on my machine?
     
