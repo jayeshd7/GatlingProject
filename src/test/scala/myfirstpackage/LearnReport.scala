@@ -11,6 +11,7 @@ class LearnReport extends Simulation{
     .inferHtmlResources()
     .userAgentHeader("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36")
     .silentResources
+    //.silentUri(".*bookings")
 
   val headers_0 = Map(
     "Accept" -> "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
@@ -39,6 +40,12 @@ class LearnReport extends Simulation{
 
 
   val scn = scenario("SE")
+    /*
+    Clear cookies and caches
+     */
+    .exec(flushHttpCache)
+    .exec(flushSessionCookies)
+    .exec(flushCookieJar)
 
     .exec(http("Homepage")
       .get("/")
@@ -46,7 +53,7 @@ class LearnReport extends Simulation{
       .resources(http("request_1")
         .get("/assets/application-2534172286055efef05dbb34d2da8fc2.js")
         .headers(headers_1)
-      ))
+      .notSilent))
     .pause(1)
     .exec(http("request_2")
       .get("/favicon.ico")
@@ -99,6 +106,30 @@ class LearnReport extends Simulation{
       .get("/favicon.ico")
       .silent)
 
-setUp(scn.inject(atOnceUsers(5))).protocols(httpProtocol)
+  /*//FIXED pause
+      .pause(10)
+      .pause(5000 millisecond)
+
+  // Random Uniform
+      .pause(10,30)
+      .pause(10, 30 millisecond)*/
+
+setUp(scn.inject(atOnceUsers(1))).protocols(httpProtocol)
+
+  /*
+  @Assertion Concept
+  */
+
+    .assertions(global.responseTime.max.lt(1000),
+      forAll.responseTime.max.lt(1000),
+      details("BookFlight").responseTime.max.lt(1000),
+      global.successfulRequests.percent.is(100),
+
+    )
+
+
+
+    //.uniformPauses(10)
+   // .disablePauses()
 
 }

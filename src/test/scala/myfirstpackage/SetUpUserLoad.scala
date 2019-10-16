@@ -55,6 +55,7 @@ class SetUpUserLoad extends Simulation{
         .get("/assets/application-2534172286055efef05dbb34d2da8fc2.js")
         .headers(headers_1))
       .check(status.in(200, 201, 202, 304))
+      .check(status.in(200))
       .check(status.not(404)))
     .pause(1)
     .exec(http("request_2")
@@ -130,6 +131,8 @@ class SetUpUserLoad extends Simulation{
         .headers(headers_1),
         http("request_9")
           .get("/assets/application-c99cbb3caf78d16bb1482ca2e41d7a9c.css"))
+      .check(status.in(200))
+
       .check(css("h1:contains('Book Flight')").exists)
       .check(substring("Email").find.exists)
       .check(substring("Email"))
@@ -138,6 +141,7 @@ class SetUpUserLoad extends Simulation{
       .check(bodyString.saveAs("BODY")))
     .exec{
       session =>
+        println("jayesh here...")
         println(session("BODY").as[String])
         session
     }
@@ -168,9 +172,12 @@ class SetUpUserLoad extends Simulation{
       .silent)
 
 
+
+
   setUp(
-    scenario1.inject(atOnceUsers(1)),
-    scenario2.inject(atOnceUsers(1))
+    scenario1.inject(atOnceUsers(5)),
+    scenario2.inject(atOnceUsers(5))
+    //scenario3.inject(rampConcurrentUsers(0) to 4 during(10),constantConcurrentUsers(3) during(60 seconds))
   ).protocols(httpProtocol)
 
 

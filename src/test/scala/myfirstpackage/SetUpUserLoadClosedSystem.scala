@@ -135,6 +135,8 @@ class SetUpUserLoadClosedSystem extends Simulation{
       .check(substring("Email").count.is(2))
       .check(css("input[name='authenticity_token']", "value").saveAs("authToken"))
       .check(bodyString.saveAs("BODY")))
+
+
     .exec{
       session =>
         println(session("BODY").as[String])
